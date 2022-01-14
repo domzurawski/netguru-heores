@@ -86,7 +86,7 @@ export default function AddHero(): ReactElement {
                                 <p className="font-bold flex-1">Add hero</p>
                                 <XIcon
                                     onClick={handleClose}
-                                    className="text-gray-500 hover:text-gray-400 cursor-pointer h-6 w-6"
+                                    className="text-gray-500 hover:text-gray-400 cursor-pointer h-6 w-6 transition"
                                 />
                             </div>
                             <div className="w-20 h-20 rounded-full bg-blue-500 mt-8 mb-4 mr-4"></div>

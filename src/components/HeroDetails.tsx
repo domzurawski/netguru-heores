@@ -47,7 +47,7 @@ export default function HeroDetails(): ReactElement {
                         <div className="inline-block p-6 rounded-none bg-gray-100 w-screen h-screen sm:w-full sm:h-full sm:max-w-md sm:rounded-lg align-middle text-left transform transition-all">
                             <XIcon
                                 onClick={handleClose}
-                                className="text-gray-500 hover:text-gray-400 cursor-pointer h-6 w-6 float-right"
+                                className="text-gray-500 hover:text-gray-400 cursor-pointer h-6 w-6 float-right transition"
                             />
 
                             <div className="w-28 h-28 rounded-full bg-blue-500 mt-8 my-6 mx-auto"></div>
