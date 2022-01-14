@@ -19,9 +19,7 @@ export default function Index(): ReactElement {
     };
 
     useEffect(() => {
-        if (heroId) {
-            console.log(heroId);
-        }
+        if (heroId) console.log(heroId);
 
         setLoadingHeroes(false);
     }, [heroId]);
