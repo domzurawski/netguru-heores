@@ -10,6 +10,7 @@ export default function AddHero(): ReactElement {
     const dispatch = useDispatch();
 
     const [newHero, setNewHero] = useState<IHero>({
+        id: '',
         imgUrl: '',
         name: '',
         type: '',

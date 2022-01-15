@@ -5,7 +5,10 @@ export enum ModalActionTypes {
 
 export interface ModalAction {
     type: ModalActionTypes;
-    payload?: ModalContent;
+    payload?: {
+        component: ModalContent;
+        heroId: string | undefined;
+    };
 }
 
 export enum ModalContent {
@@ -13,10 +16,16 @@ export enum ModalContent {
     HERO_DETAILS,
 }
 
-export function showModal(component: ModalContent): ModalAction {
+export function showModal(
+    component: ModalContent,
+    heroId: string | undefined = undefined
+): ModalAction {
     return {
         type: ModalActionTypes.ShowModal,
-        payload: component,
+        payload: {
+            component,
+            heroId,
+        },
     };
 }
 

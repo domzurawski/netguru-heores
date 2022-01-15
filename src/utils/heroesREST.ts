@@ -10,10 +10,16 @@ export const handleAddNewHero = async (
     console.log(newHero);
 };
 
-export const handleDeleteNewHero = async (heroId: string) => {};
+export const handleDeleteHero = async (heroId: string) => {
+    console.log('Random hero test', heroId);
+};
 
-export const handleGetHeroById = async (heroId: string) => {};
+export const handleGetHeroById = async (heroId: string) => {
+    console.log('Random hero test', heroId);
+};
 
 export const handleGetAllHeroes = async () => {};
 
-export const handleGetRandomHero = async () => {};
+export const handleGetRandomHero = async () => {
+    console.log('Random hero test');
+};

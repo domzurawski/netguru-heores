@@ -1,25 +1,29 @@
 import HeroesList from 'components/HeroesList';
 import { ReactElement, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { RootStateOrAny, useSelector } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import ControlsSection from 'components/ControlsSection';
+import { ModalContent, showModal } from 'store/actions/modalActions';
+import { IHero } from 'types';
 
 export default function Index(): ReactElement {
+    const dispatch = useDispatch();
     const { heroId } = useParams();
 
-    const heroes = useSelector((state: RootStateOrAny) => state.heroesReducer);
     const [loadingHeroes, setLoadingHeroes] = useState<boolean>(true);
 
     useEffect(() => {
-        if (heroId) console.log(heroId);
+        if (heroId) {
+            dispatch(showModal(ModalContent.HERO_DETAILS));
+        }
 
         setLoadingHeroes(false);
-    }, [heroId]);
+    }, [dispatch, heroId]);
 
     return (
         <>
             <ControlsSection />
-            <HeroesList heroes={heroes} loadingHeroes={loadingHeroes} />
+            <HeroesList />
         </>
     );
 }

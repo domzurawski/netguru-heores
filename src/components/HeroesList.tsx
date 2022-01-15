@@ -1,17 +1,14 @@
 import { ReactElement } from 'react';
+import { RootStateOrAny, useSelector } from 'react-redux';
 import { IHero } from 'types';
 import HeroesListElement from './HeroesListElement';
 import LoadingDots from './LoadingDots';
 
-interface IProps {
-    heroes: IHero[];
-    loadingHeroes: boolean;
-}
+export default function HeroesList(): ReactElement {
+    const heroes: IHero[] = useSelector(
+        (state: RootStateOrAny) => state.heroesReducer
+    );
 
-export default function HeroesList({
-    heroes,
-    loadingHeroes,
-}: IProps): ReactElement {
     return (
         <div>
             <div className="hidden md:grid grid-cols-3 gap-x-3">
@@ -26,7 +23,7 @@ export default function HeroesList({
                 ))}
             </div>
 
-            <LoadingDots loadingHeroes={loadingHeroes} />
+            <LoadingDots />
         </div>
     );
 }

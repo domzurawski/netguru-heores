@@ -9,7 +9,7 @@ import HeroDetails from 'components/HeroDetails';
 export default function Modal(): ReactElement {
     const dispatch = useDispatch();
 
-    const { isOpen, component } = useSelector(
+    const { isOpen, component, heroId } = useSelector(
         (state: RootStateOrAny) => state.modalReducer
     );
 
@@ -22,7 +22,7 @@ export default function Modal(): ReactElement {
             case ModalContent.ADD_HERO:
                 return <AddHero />;
             case ModalContent.HERO_DETAILS:
-                return <HeroDetails />;
+                return <HeroDetails heroId={heroId} />;
             default:
                 return null;
         }
