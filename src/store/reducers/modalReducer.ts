@@ -3,17 +3,18 @@ import {
     ModalActionTypes,
     ModalContent,
 } from 'store/actions/modalActions';
+import { IHero } from 'types';
 
 interface IModalState {
     isOpen: boolean;
     component: ModalContent | null;
-    heroId?: string;
+    hero?: IHero | undefined;
 }
 
 const initialState: IModalState = {
     isOpen: false,
     component: null,
-    heroId: undefined,
+    hero: undefined,
 };
 
 export const modalReducer = (state = initialState, action: ModalAction) => {
@@ -21,7 +22,7 @@ export const modalReducer = (state = initialState, action: ModalAction) => {
         case ModalActionTypes.ShowModal:
             return { isOpen: true, ...action.payload };
         case ModalActionTypes.HideModal:
-            return { ...state, isOpen: false };
+            return { ...state, isOpen: false, hero: undefined };
         default:
             return state;
     }

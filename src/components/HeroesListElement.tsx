@@ -11,7 +11,7 @@ export default function HeroesListElement({ hero }: IProps): ReactElement {
     const dispatch = useDispatch();
 
     const handleOpenHeroDetails = () => {
-        dispatch(showModal(ModalContent.HERO_DETAILS, hero.id));
+        dispatch(showModal(ModalContent.HERO_DETAILS, hero));
     };
 
     return (

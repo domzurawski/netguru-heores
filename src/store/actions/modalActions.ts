@@ -1,3 +1,5 @@
+import { IHero } from 'types';
+
 export enum ModalActionTypes {
     ShowModal,
     HideModal,
@@ -7,7 +9,7 @@ export interface ModalAction {
     type: ModalActionTypes;
     payload?: {
         component: ModalContent;
-        heroId: string | undefined;
+        hero: IHero | undefined;
     };
 }
 
@@ -18,13 +20,13 @@ export enum ModalContent {
 
 export function showModal(
     component: ModalContent,
-    heroId: string | undefined = undefined
+    hero: IHero | undefined = undefined
 ): ModalAction {
     return {
         type: ModalActionTypes.ShowModal,
         payload: {
             component,
-            heroId,
+            hero,
         },
     };
 }
