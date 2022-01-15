@@ -1,5 +1,27 @@
-export type Action = { type: string };
+export enum ModalActionTypes {
+    ShowModal,
+    HideModal,
+}
 
-export const openModal = () => ({ type: 'OPEN_MODAL' });
+export interface ModalAction {
+    type: ModalActionTypes;
+    payload?: ModalContent;
+}
 
-export const closeModal = () => ({ type: 'CLOSE_MODAL' });
+export enum ModalContent {
+    ADD_HERO,
+    HERO_DETAILS,
+}
+
+export function showModal(component: ModalContent): ModalAction {
+    return {
+        type: ModalActionTypes.ShowModal,
+        payload: component,
+    };
+}
+
+export function hideModal(): ModalAction {
+    return {
+        type: ModalActionTypes.HideModal,
+    };
+}

@@ -1,18 +1,25 @@
-import { Action } from 'store/actions/modalActions';
+import {
+    ModalAction,
+    ModalActionTypes,
+    ModalContent,
+} from 'store/actions/modalActions';
 
-const initialState = false;
+interface IModalState {
+    isOpen: boolean;
+    component: ModalContent | null;
+}
 
-export type modalState = boolean;
+const initialState: IModalState = {
+    isOpen: false,
+    component: null,
+};
 
-export const modalReducer = (
-    state: modalState = initialState,
-    action: Action
-) => {
+export const modalReducer = (state = initialState, action: ModalAction) => {
     switch (action.type) {
-        case 'OPEN_MODAL':
-            return true;
-        case 'CLOSE_MODAL':
-            return false;
+        case ModalActionTypes.ShowModal:
+            return { isOpen: true, component: action.payload };
+        case ModalActionTypes.HideModal:
+            return { ...state, isOpen: false };
         default:
             return state;
     }

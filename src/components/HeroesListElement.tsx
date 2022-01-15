@@ -1,4 +1,6 @@
 import { ReactElement } from 'react';
+import { useDispatch } from 'react-redux';
+import { ModalContent, showModal } from 'store/actions/modalActions';
 import { IHero } from 'types';
 
 interface IProps {
@@ -6,8 +8,17 @@ interface IProps {
 }
 
 export default function HeroesListElement({ hero }: IProps): ReactElement {
+    const dispatch = useDispatch();
+
+    const handleOpenHeroDetails = () => {
+        dispatch(showModal(ModalContent.HERO_DETAILS));
+    };
+
     return (
-        <div className="bg-white rounded-md mb-2 p-4 cursor-pointer">
+        <div
+            onClick={handleOpenHeroDetails}
+            className="bg-white rounded-md mb-2 p-4 cursor-pointer"
+        >
             <div className="md:grid md:grid-cols-3 md:items-center">
                 <div className="flex items-center mb-4 md:m-0">
                     <div

@@ -1,6 +1,6 @@
 import { IHero } from 'types';
 
-export type Action = { type: string; payload?: IHero | IHero[] | string };
+export type HeoresAction = { type: string; payload?: IHero | IHero[] | string };
 
 export const setHeroes = () => ({});
 export const deleteHero = () => ({});
