@@ -36,6 +36,8 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
                 setTimeout(() => setLoading(false), 3000);
             }
         }
+
+        return () => setLoading(false);
     }, []);
 
     const handleClose = () => dispatch(hideModal());
