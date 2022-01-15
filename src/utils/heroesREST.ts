@@ -1,5 +1,10 @@
 import { FormEvent } from 'react';
 import { IHero } from 'types';
+import { store } from 'store/store';
+import { randomIntFromInterval } from './numbers';
+import { ModalContent, showModal } from 'store/actions/modalActions';
+
+const state = store.getState();
 
 export const handleAddNewHero = async (
     e: FormEvent<HTMLFormElement>,
@@ -21,5 +26,17 @@ export const handleGetHeroById = async (heroId: string) => {
 export const handleGetAllHeroes = async () => {};
 
 export const handleGetRandomHero = async () => {
-    console.log('Random hero test');
+    const allLoadedHeroes: IHero[] = state.heroesReducer;
+
+    if (allLoadedHeroes.length === 0) {
+        // return dispatch error snackbar
+    }
+
+    const randomizerHeroNumber = randomIntFromInterval(
+        0,
+        allLoadedHeroes.length
+    );
+    const randomizedHero = allLoadedHeroes[randomizerHeroNumber];
+
+    store.dispatch(showModal(ModalContent.HERO_DETAILS, randomizedHero));
 };

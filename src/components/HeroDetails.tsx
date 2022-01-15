@@ -1,4 +1,5 @@
 import { XIcon } from '@heroicons/react/solid';
+import axios from 'axios';
 import { ReactElement, useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -16,26 +17,45 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
     const heroes = useSelector((state: RootStateOrAny) => state.heroesReducer);
 
     const [loading, setLoading] = useState<boolean>(true);
-    const [selectedHero, setSelectetHero] = useState<IHero | undefined>(hero);
+    const [selectedHero, setSelectetHero] = useState<IHero | undefined>(
+        undefined
+    );
+    const [error, setError] = useState<boolean>(true);
 
     useEffect(() => {
-        if (hero) {
-            setSelectetHero(hero);
-            setLoading(false);
-        } else if (!hero && heroId) {
-            const tempHero = heroes.filter(
-                (hero: IHero) => hero.id === heroId
-            )[0];
-
-            if (tempHero) {
-                setSelectetHero(tempHero);
+        const getSelectedHero = async () => {
+            if (hero) {
+                setSelectetHero(hero);
                 setLoading(false);
-            } else {
-                //TODO: call api for yet unfetched hero
+            } else if (!hero && heroId) {
+                const tempHero = heroes.filter(
+                    (hero: IHero) => hero.id === heroId
+                )[0];
 
-                setTimeout(() => setLoading(false), 3000);
+                if (tempHero) {
+                    setSelectetHero(tempHero);
+                    setLoading(false);
+                } else {
+                    //TODO: call api for unfetched hero
+                    // setError(true);
+                    await axios(process.env.REACT_APP_API_URL + '/')
+                        .then(({ data }) => {
+                            console.log(data);
+
+                            setSelectetHero(data);
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                            setError(true);
+                        })
+                        .finally(() => {
+                            setTimeout(() => setLoading(false), 3000);
+                        });
+                }
             }
-        }
+        };
+
+        getSelectedHero();
 
         return () => setLoading(false);
     }, []);
@@ -73,7 +93,13 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
                     </p>
                 </>
             ) : (
-                <div>no hero for u sugar</div>
+                <>
+                    {error ? (
+                        <div>Oops! Something went wrong.</div>
+                    ) : (
+                        <div>no hero for u sugar</div>
+                    )}
+                </>
             )}
 
             {selectedHero && (
