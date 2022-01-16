@@ -36,8 +36,6 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
                     setSelectetHero(tempHero);
                     setLoading(false);
                 } else {
-                    //TODO: call api for unfetched hero
-                    // setError(true);
                     await axios(process.env.REACT_APP_API_URL + '/')
                         .then(({ data }) => {
                             console.log(data);

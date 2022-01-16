@@ -5,7 +5,7 @@ import { IHero } from 'types';
 import { handleGetHeroesBatch } from 'utils/heroesREST';
 import HeroesListElement from './HeroesListElement';
 import LoadingDots from './LoadingDots';
-import NoMoreHeroes from './overlays/NoMoreHeroes';
+import NoMoreHeroes from './NoMoreHeroes';
 
 export default function HeroesList(): ReactElement {
     const heroes: IHero[] = useSelector(

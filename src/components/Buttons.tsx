@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import { PlusIcon, SparklesIcon, TrashIcon } from '@heroicons/react/solid';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {
     onClick: () => void;
@@ -43,6 +44,19 @@ export function DeleteHeroButton({ onClick }: IProps): ReactElement {
                 <TrashIcon className="w-4 h-4 mr-2" />
                 Delete hero
             </div>
+        </button>
+    );
+}
+
+export function HomepageButton(): ReactElement {
+    const navigate = useNavigate();
+
+    return (
+        <button
+            onClick={() => navigate('/')}
+            className="hover:text-blue-400 hover:border-blue-400 text-blue-600 font-semibold border border-blue-600 w-auto rounded-md py-2 px-4 transition"
+        >
+            Visit homepage
         </button>
     );
 }
