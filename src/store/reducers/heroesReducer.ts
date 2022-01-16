@@ -1,4 +1,4 @@
-import { HeoresAction } from 'store/actions/heroesActions';
+import { HeroesAction, HeroesActionTypes } from 'store/actions/heroesActions';
 import { IHero } from 'types';
 
 const initialState: IHero[] = [
@@ -84,11 +84,11 @@ const initialState: IHero[] = [
     },
 ];
 
-export const heroesReducer = (
-    state: IHero[] = initialState,
-    action: HeoresAction
-) => {
+export const heroesReducer = (state = initialState, action: HeroesAction) => {
     switch (action.type) {
+        case HeroesActionTypes.SetHeroes:
+            console.log(action.payload);
+            return [...state, ...(action.payload as Array<IHero>)];
         default:
             return state;
     }

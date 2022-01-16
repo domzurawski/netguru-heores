@@ -1,8 +1,8 @@
 import { IHero } from 'types';
 
 export enum ModalActionTypes {
-    ShowModal,
-    HideModal,
+    ShowModal = 'SHOW_MODAL',
+    HideModal = 'HIDE_MODAL',
 }
 
 export interface ModalAction {

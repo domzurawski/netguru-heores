@@ -1,8 +1,11 @@
 import { ReactElement } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import { IHero } from 'types';
+import { handleGetHeroesBatch } from 'utils/heroesREST';
 import HeroesListElement from './HeroesListElement';
 import LoadingDots from './LoadingDots';
+import NoMoreHeroes from './overlays/NoMoreHeroes';
 
 export default function HeroesList(): ReactElement {
     const heroes: IHero[] = useSelector(
@@ -17,13 +20,17 @@ export default function HeroesList(): ReactElement {
                 <div className="-ml-4 py-2 text-gray-500">Description</div>
             </div>
 
-            <div className="mb-6">
+            <InfiniteScroll
+                dataLength={heroes.length}
+                next={handleGetHeroesBatch}
+                hasMore={heroes.length >= 20 ? false : true}
+                loader={<LoadingDots />}
+                endMessage={<NoMoreHeroes />}
+            >
                 {heroes.map((hero: IHero, index) => (
                     <HeroesListElement key={index} hero={hero} />
                 ))}
-            </div>
-
-            <LoadingDots />
+            </InfiniteScroll>
         </div>
     );
 }
