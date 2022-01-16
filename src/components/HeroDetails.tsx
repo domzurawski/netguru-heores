@@ -62,49 +62,57 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
 
     return (
         <>
-            <XIcon
-                onClick={handleClose}
-                className="text-gray-500 hover:text-gray-400 cursor-pointer h-6 w-6 float-right transition"
-            />
+            <div className="h-full flex flex-col">
+                <XIcon
+                    onClick={handleClose}
+                    className="text-gray-500 hover:text-gray-400 cursor-pointer h-6 w-6 ml-auto transition"
+                />
 
-            {loading ? (
-                <>
-                    <div className="w-28 h-28 rounded-full bg-gray-300 animate-pulse mt-8 my-6 mx-auto"></div>
-                    <p className="w-28 h-5 rounded bg-gray-300 animate-pulse mx-auto mb-2"></p>
-                    <p className="w-20 h-5 rounded bg-gray-300 animate-pulse mx-auto mb-4"></p>
-                    <p className="w-full h-32 rounded bg-gray-300 animate-pulse mb-4"></p>
-                </>
-            ) : selectedHero ? (
-                <>
-                    <div
-                        className={`w-28 h-28 rounded-full ${selectedHero.imgUrl} mt-8 my-6 mx-auto`}
-                    ></div>
+                {loading ? (
+                    <>
+                        <div className="w-28 h-28 rounded-full bg-gray-300 animate-pulse mt-8 my-6 mx-auto"></div>
+                        <p className="w-28 h-5 rounded bg-gray-300 animate-pulse mx-auto mb-2"></p>
+                        <p className="w-20 h-5 rounded bg-gray-300 animate-pulse mx-auto mb-4"></p>
+                        <p className="w-full h-32 rounded bg-gray-300 animate-pulse mb-4"></p>
+                    </>
+                ) : selectedHero ? (
+                    <>
+                        <div
+                            className={`w-28 h-28 rounded-full ${selectedHero.imgUrl} mt-8 my-6 mx-auto`}
+                        ></div>
 
-                    <p className="font-bold text-center">{selectedHero.name}</p>
+                        <p className="font-bold text-center">
+                            {selectedHero.name}
+                        </p>
 
-                    <p className="text-gray-800 text-center mb-4">
-                        {selectedHero.type}
-                    </p>
+                        <p className="text-gray-800 text-center mb-4">
+                            {selectedHero.type}
+                        </p>
 
-                    <p className="text-gray-800 text-left mb-4">
-                        {selectedHero.description}
-                    </p>
-                </>
-            ) : (
-                <>
-                    {error ? (
-                        <div>Oops! Something went wrong.</div>
-                    ) : (
-                        <div>no hero for u sugar</div>
-                    )}
-                </>
-            )}
+                        <p className="text-gray-800 text-left mb-4">
+                            {selectedHero.description}
+                        </p>
+                    </>
+                ) : (
+                    <>
+                        {error ? (
+                            <div>Oops! Something went wrong.</div>
+                        ) : (
+                            <div>no hero for u sugar</div>
+                        )}
+                    </>
+                )}
 
-            {selectedHero && (
-                <div className="text-center">
-                    <DeleteHeroButton onClick={() => console.log('abcd')} />
-                </div>
-            )}
+                {selectedHero && (
+                    <div className="text-center mt-auto">
+                        <DeleteHeroButton
+                            onClick={() =>
+                                console.log('Delete hero:', hero?.id)
+                            }
+                        />
+                    </div>
+                )}
+            </div>
         </>
     );
 }

@@ -64,7 +64,7 @@ export default function Modal(): ReactElement {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                        <div className="inline-block p-6 rounded-none bg-gray-100 w-screen h-screen sm:w-full sm:h-full sm:max-w-md sm:rounded-lg align-middle text-left transform transition-all">
+                        <div className="inline-block p-6 rounded-none bg-gray-100 w-screen h-screen sm:w-full sm:h-full sm:max-w-sm sm:rounded-lg align-middle text-left transform transition-all">
                             {renderModalContent()}
                         </div>
                     </Transition.Child>

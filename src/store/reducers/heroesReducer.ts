@@ -87,7 +87,6 @@ const initialState: IHero[] = [
 export const heroesReducer = (state = initialState, action: HeroesAction) => {
     switch (action.type) {
         case HeroesActionTypes.SetHeroes:
-            console.log(action.payload);
             return [...state, ...(action.payload as Array<IHero>)];
         default:
             return state;

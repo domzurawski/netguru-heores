@@ -37,7 +37,10 @@ export default function AddHero(): ReactElement {
     const handleClose = () => dispatch(hideModal());
 
     return (
-        <>
+        <form
+            onSubmit={(e) => handleAddNewHero(e, newHero)}
+            className="h-full flex flex-col"
+        >
             <div className="flex space-between items-center">
                 <p className="font-bold flex-1">Add hero</p>
                 <XIcon
@@ -47,74 +50,72 @@ export default function AddHero(): ReactElement {
             </div>
             <div className="w-20 h-20 rounded-full bg-blue-500 mt-8 mb-4 mr-4"></div>
 
-            <form onSubmit={(e) => handleAddNewHero(e, newHero)}>
-                <label
-                    htmlFor="imgUrl"
-                    className="block text-sm font-medium text-gray-500"
-                >
-                    Avatar URL
-                </label>
-                <input
-                    onChange={handleChange}
-                    type="text"
-                    name="imgUrl"
-                    id="imgUrl"
-                    className="mt-1 block w-full border-0 focus:ring-emerald-500 focus:border-emerald-500 rounded-md mb-2"
-                />
+            <label
+                htmlFor="imgUrl"
+                className="block text-sm font-medium text-gray-500"
+            >
+                Avatar URL
+            </label>
+            <input
+                onChange={handleChange}
+                type="text"
+                name="imgUrl"
+                id="imgUrl"
+                className="mt-1 block w-full border-0 focus:ring-emerald-500 focus:border-emerald-500 rounded-md mb-2"
+            />
 
-                <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-gray-500"
-                >
-                    Full name
-                </label>
-                <input
-                    onChange={handleChange}
-                    type="text"
-                    name="name"
-                    id="name"
-                    className="mt-1 block w-full border-0 focus:ring-emerald-500 focus:border-emerald-500 rounded-md mb-2"
-                />
+            <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-500"
+            >
+                Full name
+            </label>
+            <input
+                onChange={handleChange}
+                type="text"
+                name="name"
+                id="name"
+                className="mt-1 block w-full border-0 focus:ring-emerald-500 focus:border-emerald-500 rounded-md mb-2"
+            />
 
-                <label
-                    htmlFor="type"
-                    className="block text-sm font-medium text-gray-500"
-                >
-                    Type
-                </label>
-                <select
-                    onChange={handleChange}
-                    id="type"
-                    name="type"
-                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-0 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md mb-2 text-gray-500"
-                    defaultValue="Select type"
-                >
-                    <option disabled>Select type</option>
-                    {heroTypes.map((heroType: IHeroType, index: number) => (
-                        <option key={index} value={heroType.value}>
-                            {heroType.title}
-                        </option>
-                    ))}
-                </select>
+            <label
+                htmlFor="type"
+                className="block text-sm font-medium text-gray-500"
+            >
+                Type
+            </label>
+            <select
+                onChange={handleChange}
+                id="type"
+                name="type"
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-0 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md mb-2 text-gray-500"
+                defaultValue="Select type"
+            >
+                <option disabled>Select type</option>
+                {heroTypes.map((heroType: IHeroType, index: number) => (
+                    <option key={index} value={heroType.value}>
+                        {heroType.title}
+                    </option>
+                ))}
+            </select>
 
-                <label
-                    htmlFor="description"
-                    className="block text-sm font-medium text-gray-500"
-                >
-                    Description
-                </label>
-                <textarea
-                    onChange={handleChange}
-                    name="description"
-                    id="description"
-                    rows={6}
-                    className="mt-1 block w-full border-0 focus:ring-emerald-500 focus:border-emerald-500 rounded-md mb-2 resize-none"
-                />
+            <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-500"
+            >
+                Description
+            </label>
+            <textarea
+                onChange={handleChange}
+                name="description"
+                id="description"
+                rows={6}
+                className="mt-1 block w-full border-0 focus:ring-emerald-500 focus:border-emerald-500 rounded-md resize-none mb-auto"
+            />
 
-                <button className="bg-emerald-500 hover:bg-emerald-400 text-white font-semibold w-full rounded-md py-2 px-4">
-                    Save
-                </button>
-            </form>
-        </>
+            <button className="bg-emerald-500 hover:bg-emerald-400 text-white font-semibold w-full rounded-md py-2 px-4 sm:mt-4">
+                Save
+            </button>
+        </form>
     );
 }
