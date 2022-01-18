@@ -1,18 +1,7 @@
-import { IHero } from 'types';
-
-export enum HeroesActionTypes {
-    SetHeroes = 'SET_HEROES',
-    DeleteHero = 'DELETE_HERO',
-    AddHero = 'ADD_HERO',
-}
-
-export type HeroesAction = {
-    type: HeroesActionTypes;
-    payload: IHero | IHero[] | string;
-};
+import { HeroesAction, HeroesActionTypes, IHero } from 'types';
 
 export const setHeroes = (heroes: IHero[]): HeroesAction => ({
-    type: HeroesActionTypes.SetHeroes,
+    type: HeroesActionTypes.SET_HEROES,
     payload: heroes,
 });
 

@@ -1,18 +1,17 @@
-import { XIcon } from '@heroicons/react/solid';
 import axios from 'axios';
+import { HEROES_ENDPOINT } from 'constants/endpoints';
 import { ReactElement, useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { hideModal } from 'store/actions/modalActions';
 import { IHero } from 'types';
-import { DeleteHeroButton } from './Buttons';
+import { handleDeleteHero } from 'utils/heroesREST';
+import { DeleteHeroButton, HomepageButton } from './Buttons';
 
 interface IProps {
     hero: IHero | undefined;
 }
 
 export default function HeroDetails({ hero }: IProps): ReactElement {
-    const dispatch = useDispatch();
     const { heroId } = useParams();
     const heroes = useSelector((state: RootStateOrAny) => state.heroesReducer);
 
@@ -20,7 +19,6 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
     const [selectedHero, setSelectetHero] = useState<IHero | undefined>(
         undefined
     );
-    const [error, setError] = useState<boolean>(true);
 
     useEffect(() => {
         const getSelectedHero = async () => {
@@ -36,19 +34,20 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
                     setSelectetHero(tempHero);
                     setLoading(false);
                 } else {
-                    await axios(process.env.REACT_APP_API_URL + '/')
-                        .then(({ data }) => {
-                            console.log(data);
-
-                            setSelectetHero(data);
-                        })
+                    await axios(HEROES_ENDPOINT + '/' + heroId)
+                        .then(({ data }) =>
+                            setSelectetHero({
+                                ...data,
+                                avatarUrl: data.avatarUrl.replace(
+                                    'assets',
+                                    'static'
+                                ),
+                            })
+                        )
                         .catch((e) => {
                             console.log(e);
-                            setError(true);
                         })
-                        .finally(() => {
-                            setTimeout(() => setLoading(false), 3000);
-                        });
+                        .finally(() => setLoading(false));
                 }
             }
         };
@@ -58,16 +57,9 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
         return () => setLoading(false);
     }, []);
 
-    const handleClose = () => dispatch(hideModal());
-
     return (
         <>
             <div className="h-full flex flex-col">
-                <XIcon
-                    onClick={handleClose}
-                    className="text-gray-500 hover:text-gray-400 cursor-pointer h-6 w-6 ml-auto transition"
-                />
-
                 {loading ? (
                     <>
                         <div className="w-28 h-28 rounded-full bg-gray-300 animate-pulse mt-8 my-6 mx-auto"></div>
@@ -77,16 +69,20 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
                     </>
                 ) : selectedHero ? (
                     <>
-                        <div
-                            className={`w-28 h-28 rounded-full ${selectedHero.imgUrl} mt-8 my-6 mx-auto`}
-                        ></div>
+                        <img
+                            className="w-28 h-28 mx-auto mt-8 my-6 rounded-full"
+                            src={
+                                process.env.REACT_APP_API_URL +
+                                selectedHero.avatarUrl
+                            }
+                        />
 
                         <p className="font-bold text-center">
-                            {selectedHero.name}
+                            {selectedHero.fullName}
                         </p>
 
                         <p className="text-gray-800 text-center mb-4">
-                            {selectedHero.type}
+                            {selectedHero.type.name}
                         </p>
 
                         <p className="text-gray-800 text-left mb-4">
@@ -94,21 +90,15 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
                         </p>
                     </>
                 ) : (
-                    <>
-                        {error ? (
-                            <div>Oops! Something went wrong.</div>
-                        ) : (
-                            <div>no hero for u sugar</div>
-                        )}
-                    </>
+                    <p className="text-gray-600 font-bold my-6 text-center text-xl">
+                        Oops! Something went wrong 😞
+                    </p>
                 )}
 
                 {selectedHero && (
                     <div className="text-center mt-auto">
                         <DeleteHeroButton
-                            onClick={() =>
-                                console.log('Delete hero:', hero?.id)
-                            }
+                            onClick={() => handleDeleteHero(selectedHero.id)}
                         />
                     </div>
                 )}

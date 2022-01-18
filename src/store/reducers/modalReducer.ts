@@ -1,15 +1,4 @@
-import {
-    ModalAction,
-    ModalActionTypes,
-    ModalContent,
-} from 'store/actions/modalActions';
-import { IHero } from 'types';
-
-interface IModalState {
-    isOpen: boolean;
-    component: ModalContent | null;
-    hero?: IHero | undefined;
-}
+import { IHero, IModalState, ModalAction, ModalActionTypes } from 'types';
 
 const initialState: IModalState = {
     isOpen: false,
@@ -19,9 +8,9 @@ const initialState: IModalState = {
 
 export const modalReducer = (state = initialState, action: ModalAction) => {
     switch (action.type) {
-        case ModalActionTypes.ShowModal:
+        case ModalActionTypes.SHOW_MODAL:
             return { isOpen: true, ...action.payload };
-        case ModalActionTypes.HideModal:
+        case ModalActionTypes.HIDE_MODAL:
             return { ...state, isOpen: false, hero: undefined };
         default:
             return state;

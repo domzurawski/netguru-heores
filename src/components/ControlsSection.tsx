@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import { useDispatch } from 'react-redux';
-import { ModalContent, showModal } from 'store/actions/modalActions';
+import { showModal } from 'store/actions/modalActions';
+import { ModalContent } from 'types';
 import { handleGetRandomHero } from 'utils/heroesREST';
 import { AddHeroButton, RandomizeButton } from './Buttons';
 
@@ -11,10 +12,16 @@ export default function ControlsSection(): ReactElement {
         dispatch(showModal(ModalContent.ADD_HERO));
     };
 
+    const handleRandomize = async () => {
+        handleGetRandomHero().then((hero) =>
+            dispatch(showModal(ModalContent.HERO_DETAILS, hero))
+        );
+    };
+
     return (
         <div className="sm:flex sm:space-y-0 grid-cols-12 gap-x-3 items-center mb-4 space-y-2">
             <AddHeroButton onClick={handleOpenNewHero} />
-            <RandomizeButton onClick={handleGetRandomHero} />
+            <RandomizeButton onClick={handleRandomize} />
         </div>
     );
 }

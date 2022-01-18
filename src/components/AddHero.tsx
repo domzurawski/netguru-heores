@@ -1,26 +1,24 @@
-import { XIcon } from '@heroicons/react/solid';
 import { ChangeEvent, ReactElement, useState } from 'react';
-import { IHero, IHeroType } from 'types';
-
-import { useDispatch } from 'react-redux';
-import { hideModal } from 'store/actions/modalActions';
+import { IHero, IType } from 'types';
 import { handleAddNewHero } from 'utils/heroesREST';
 
 export default function AddHero(): ReactElement {
-    const dispatch = useDispatch();
-
     const [newHero, setNewHero] = useState<IHero>({
         id: '',
-        imgUrl: '',
-        name: '',
-        type: '',
+        avatarUrl: '',
+        fullName: '',
+        typeId: '',
+        type: {
+            id: '',
+            name: '',
+        },
         description: '',
     });
 
-    const heroTypes: IHeroType[] = [
-        { value: 'animal', title: 'Animal' },
-        { value: 'doctor', title: 'Doctor' },
-        { value: 'millionaire', title: 'Millionaire' },
+    const heroTypes: IType[] = [
+        { id: 'animal', name: 'Animal' },
+        { id: 'doctor', name: 'Doctor' },
+        { id: 'millionaire', name: 'Millionaire' },
     ];
 
     const handleChange = (
@@ -34,20 +32,13 @@ export default function AddHero(): ReactElement {
         setNewHero({ ...newHero, [name]: value });
     };
 
-    const handleClose = () => dispatch(hideModal());
-
     return (
         <form
             onSubmit={(e) => handleAddNewHero(e, newHero)}
             className="h-full flex flex-col"
         >
-            <div className="flex space-between items-center">
-                <p className="font-bold flex-1">Add hero</p>
-                <XIcon
-                    onClick={handleClose}
-                    className="text-gray-500 hover:text-gray-400 cursor-pointer h-6 w-6 transition"
-                />
-            </div>
+            <p className="font-bold flex-1">Add hero</p>
+
             <div className="w-20 h-20 rounded-full bg-blue-500 mt-8 mb-4 mr-4"></div>
 
             <label
@@ -92,9 +83,9 @@ export default function AddHero(): ReactElement {
                 defaultValue="Select type"
             >
                 <option disabled>Select type</option>
-                {heroTypes.map((heroType: IHeroType, index: number) => (
-                    <option key={index} value={heroType.value}>
-                        {heroType.title}
+                {heroTypes.map((heroType: IType, index: number) => (
+                    <option key={index} value={heroType.id}>
+                        {heroType.name}
                     </option>
                 ))}
             </select>

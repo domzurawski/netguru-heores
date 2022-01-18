@@ -1,29 +1,11 @@
-import { IHero } from 'types';
-
-export enum ModalActionTypes {
-    ShowModal = 'SHOW_MODAL',
-    HideModal = 'HIDE_MODAL',
-}
-
-export interface ModalAction {
-    type: ModalActionTypes;
-    payload?: {
-        component: ModalContent;
-        hero: IHero | undefined;
-    };
-}
-
-export enum ModalContent {
-    ADD_HERO,
-    HERO_DETAILS,
-}
+import { IHero, ModalAction, ModalActionTypes, ModalContent } from 'types';
 
 export function showModal(
     component: ModalContent,
     hero: IHero | undefined = undefined
 ): ModalAction {
     return {
-        type: ModalActionTypes.ShowModal,
+        type: ModalActionTypes.SHOW_MODAL,
         payload: {
             component,
             hero,
@@ -33,6 +15,6 @@ export function showModal(
 
 export function hideModal(): ModalAction {
     return {
-        type: ModalActionTypes.HideModal,
+        type: ModalActionTypes.HIDE_MODAL,
     };
 }

@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import { IHero } from 'types';
-import { handleGetHeroesBatch } from 'utils/heroesREST';
+import { getHeroesBatch } from 'utils/heroesREST';
 import HeroesListElement from './HeroesListElement';
 import LoadingDots from './LoadingDots';
 import NoMoreHeroes from './NoMoreHeroes';
@@ -22,13 +22,13 @@ export default function HeroesList(): ReactElement {
 
             <InfiniteScroll
                 dataLength={heroes.length}
-                next={handleGetHeroesBatch}
-                hasMore={heroes.length >= 20 ? false : true}
+                next={getHeroesBatch}
+                hasMore={heroes.length < 24 ? true : false}
                 loader={<LoadingDots />}
                 endMessage={<NoMoreHeroes />}
             >
-                {heroes.map((hero: IHero, index) => (
-                    <HeroesListElement key={index} hero={hero} />
+                {heroes.map((hero: IHero) => (
+                    <HeroesListElement key={hero.id} hero={hero} />
                 ))}
             </InfiniteScroll>
         </div>
