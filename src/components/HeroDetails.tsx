@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { HEROES_ENDPOINT } from 'constants/endpoints';
 import { ReactElement, useEffect, useState } from 'react';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { RootStateOrAny, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { IHero } from 'types';
-import { handleDeleteHero } from 'utils/heroesREST';
-import { DeleteHeroButton, HomepageButton } from './Buttons';
+import { handleDeleteHero, handleGetHeroById } from 'utils/heroesREST';
+import { DeleteHeroButton } from './Buttons';
 
 interface IProps {
     hero: IHero | undefined;
@@ -34,19 +34,8 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
                     setSelectetHero(tempHero);
                     setLoading(false);
                 } else {
-                    await axios(HEROES_ENDPOINT + '/' + heroId)
-                        .then(({ data }) =>
-                            setSelectetHero({
-                                ...data,
-                                avatarUrl: data.avatarUrl.replace(
-                                    'assets',
-                                    'static'
-                                ),
-                            })
-                        )
-                        .catch((e) => {
-                            console.log(e);
-                        })
+                    handleGetHeroById(heroId)
+                        .then((hero) => hero && setSelectetHero(hero))
                         .finally(() => setLoading(false));
                 }
             }
@@ -55,7 +44,7 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
         getSelectedHero();
 
         return () => setLoading(false);
-    }, []);
+    }, [hero, heroId, heroes]);
 
     return (
         <>
@@ -75,6 +64,7 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
                                 process.env.REACT_APP_API_URL +
                                 selectedHero.avatarUrl
                             }
+                            alt="avatar"
                         />
 
                         <p className="font-bold text-center">

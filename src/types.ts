@@ -16,6 +16,7 @@ export enum HeroesActionTypes {
     SET_HEROES = 'SET_HEROES',
     DELETE_HERO = 'DELETE_HERO',
     ADD_HERO = 'ADD_HERO',
+    ADD_HEROES = 'ADD_HEROES',
 }
 
 export type HeroesAction = {

@@ -23,7 +23,7 @@ export default function HeroesList(): ReactElement {
             <InfiniteScroll
                 dataLength={heroes.length}
                 next={getHeroesBatch}
-                hasMore={heroes.length < 24 ? true : false}
+                hasMore={heroes.length < 23 ? true : false}
                 loader={<LoadingDots />}
                 endMessage={<NoMoreHeroes />}
             >

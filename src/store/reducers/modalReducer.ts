@@ -1,4 +1,4 @@
-import { IHero, IModalState, ModalAction, ModalActionTypes } from 'types';
+import { IModalState, ModalAction, ModalActionTypes } from 'types';
 
 const initialState: IModalState = {
     isOpen: false,
@@ -11,7 +11,7 @@ export const modalReducer = (state = initialState, action: ModalAction) => {
         case ModalActionTypes.SHOW_MODAL:
             return { isOpen: true, ...action.payload };
         case ModalActionTypes.HIDE_MODAL:
-            return { ...state, isOpen: false, hero: undefined };
+            return { ...state, isOpen: false };
         default:
             return state;
     }

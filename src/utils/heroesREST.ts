@@ -1,10 +1,11 @@
+import axios from 'axios';
 import { FormEvent } from 'react';
 import { IHero } from 'types';
 import { store } from 'store/store';
-import { setHeroes } from 'store/actions/heroesActions';
-import axios from 'axios';
+import { addHeroes, setHeroes } from 'store/actions/heroesActions';
 import { HEROES_ENDPOINT } from 'constants/endpoints';
 import { fixAvatarUrl } from './heroAvatarFix';
+import { hideModal } from 'store/actions/modalActions';
 
 export const handleAddNewHero = async (
     e: FormEvent<HTMLFormElement>,
@@ -16,10 +17,37 @@ export const handleAddNewHero = async (
 };
 
 export const handleDeleteHero = async (heroId: string) => {
-    console.log('Delete hero test', heroId);
+    const state = store.getState();
+
+    await axios
+        .delete(HEROES_ENDPOINT + `/${heroId}`)
+        .then(({ data }) => data)
+        .then((deletedHero: IHero) => {
+            const updatedHeros: IHero[] = state.heroesReducer.filter(
+                (hero: IHero) => hero.id !== deletedHero.id
+            );
+            store.dispatch(setHeroes(updatedHeros));
+            store.dispatch(hideModal());
+            // dispatch success alert
+        })
+        .catch((e) => {
+            //dispatch error
+            console.log(e);
+        });
 };
 
-export const handleGetHeroById = async (heroId: string) => {};
+export const handleGetHeroById = async (
+    heroId: string
+): Promise<IHero | undefined> => {
+    const hero: IHero | undefined = await axios(HEROES_ENDPOINT + '/' + heroId)
+        .then(({ data }) => fixAvatarUrl(data))
+        .catch((e) => {
+            console.log(e);
+            return undefined;
+        });
+
+    return hero;
+};
 
 export const handleGetRandomHero = async (): Promise<IHero | undefined> => {
     const randomHero: IHero | undefined = await axios(
@@ -52,5 +80,5 @@ export const getHeroesBatch = async () => {
     if (heroesBatch < HEROES_PER_BATCH)
         console.log('CREATE NEW STORE AND PASS NO MORE HEROES = TRUE');
 
-    store.dispatch(setHeroes(heroesBatch));
+    store.dispatch(addHeroes(heroesBatch));
 };
