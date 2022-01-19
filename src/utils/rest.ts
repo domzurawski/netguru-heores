@@ -1,9 +1,12 @@
 import axios from 'axios';
-import { IHero, IHeroesBatch } from 'types';
+import { IHero, IHeroesBatch, IType } from 'types';
 import { store } from 'store/store';
 import { addHeroes } from 'store/actions/heroesActions';
-import { HEROES_ENDPOINT } from 'constants/endpoints';
+import { HEROES_ENDPOINT, TYPES_ENDPOINT } from 'constants/endpoints';
 import { fixAvatarUrl } from './heroAvatarFix';
+import { setTypes } from 'store/actions/typesActions';
+
+// HEROES
 
 export const addNewHero = async (): Promise<IHero | undefined> => {
     const test: IHero | undefined = undefined;
@@ -83,6 +86,7 @@ export const getHeroesBatch = async () => {
         })
         .catch((e) => {
             console.log(e);
+            // TODO: Dispatch error
             return undefined;
         });
 
@@ -90,6 +94,22 @@ export const getHeroesBatch = async () => {
         const { totalCount, heroes } = heroesBatch;
         store.dispatch(addHeroes({ totalCount, heroes }));
     } else {
+        store.dispatch(addHeroes({ totalCount: 0, heroes: [] }));
         // dispatch error
     }
+};
+
+// TYPES
+
+export const getTypes = async () => {
+    const types: IType[] = await axios(TYPES_ENDPOINT)
+        .then(({ data }): IType[] => {
+            return data;
+        })
+        .catch((e) => {
+            console.log(e);
+            return [];
+        });
+
+    types && store.dispatch(setTypes(types));
 };

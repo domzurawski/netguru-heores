@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ControlsSection from 'components/ControlsSection';
 import { showModal } from 'store/actions/modalActions';
-import { getHeroesBatch } from 'utils/rest';
+import { getHeroesBatch, getTypes } from 'utils/rest';
 import { ModalContent } from 'types';
 
 export default function Index(): ReactElement {
@@ -14,8 +14,13 @@ export default function Index(): ReactElement {
     useEffect(() => {
         if (heroId) dispatch(showModal(ModalContent.HERO_DETAILS));
 
-        getHeroesBatch();
+        initialSetup();
     }, [dispatch, heroId]);
+
+    const initialSetup = () => {
+        getHeroesBatch();
+        getTypes();
+    };
 
     return (
         <>

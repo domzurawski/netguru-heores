@@ -1,6 +1,6 @@
-import { ITypesAction, ITypesState, TypesActionTypes } from 'types';
+import { IType, ITypesAction, TypesActionTypes } from 'types';
 
-export const setTypes = ({ types }: ITypesState): ITypesAction => ({
+export const setTypes = (types: IType[]): ITypesAction => ({
     type: TypesActionTypes.SET_TYPES,
-    payload: { types },
+    payload: types,
 });

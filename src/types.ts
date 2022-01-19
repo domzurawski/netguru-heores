@@ -74,10 +74,6 @@ export enum TypesActionTypes {
     SET_TYPES = 'SET_TYPES',
 }
 
-export interface ITypesState {
-    types: IType[];
-}
-
 export interface IType {
     id: string;
     name: string;
@@ -85,5 +81,5 @@ export interface IType {
 
 export interface ITypesAction {
     type: TypesActionTypes;
-    payload: ITypesState;
+    payload: IType[];
 }

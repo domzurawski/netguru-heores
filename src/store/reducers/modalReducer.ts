@@ -6,7 +6,10 @@ const initialState: IModalState = {
     hero: undefined,
 };
 
-export const modalReducer = (state = initialState, action: ModalAction) => {
+export const modalReducer = (
+    state: IModalState = initialState,
+    action: ModalAction
+) => {
     switch (action.type) {
         case ModalActionTypes.SHOW_MODAL:
             return { isOpen: true, ...action.payload };

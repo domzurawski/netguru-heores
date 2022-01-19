@@ -1,13 +1,14 @@
-import { ITypesAction, ITypesState, TypesActionTypes } from 'types';
+import { IType, ITypesAction, TypesActionTypes } from 'types';
 
-const initialState: ITypesState = {
-    types: [],
-};
+const initialState: IType[] = [];
 
-export const typesReducer = (state = initialState, action: ITypesAction) => {
+export const typesReducer = (
+    state: IType[] = initialState,
+    action: ITypesAction
+) => {
     switch (action.type) {
         case TypesActionTypes.SET_TYPES:
-            return { types: action.payload.types };
+            return action.payload;
         default:
             return state;
     }

@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, ReactElement, useState } from 'react';
-import { INewHero, IType } from 'types';
+import { useSelector } from 'react-redux';
+import { INewHero, IType, RootState } from 'types';
 
 export default function AddHero(): ReactElement {
     const [newHero, setNewHero] = useState<INewHero>({
@@ -9,11 +10,9 @@ export default function AddHero(): ReactElement {
         description: '',
     });
 
-    const heroTypes: IType[] = [
-        { id: 'animal', name: 'Animal' },
-        { id: 'doctor', name: 'Doctor' },
-        { id: 'millionaire', name: 'Millionaire' },
-    ];
+    const types: IType[] = useSelector(
+        (state: RootState) => state.typesReducer
+    );
 
     const handleChange = (
         e:
@@ -80,9 +79,9 @@ export default function AddHero(): ReactElement {
                 defaultValue="Select type"
             >
                 <option disabled>Select type</option>
-                {heroTypes.map((heroType: IType, index: number) => (
-                    <option key={index} value={heroType.id}>
-                        {heroType.name}
+                {types.map((type: IType) => (
+                    <option key={type.id} value={type.id}>
+                        {type.name}
                     </option>
                 ))}
             </select>

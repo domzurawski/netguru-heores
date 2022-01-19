@@ -2,10 +2,13 @@ import { IHeroesAction, HeroesActionTypes, IHeroesState } from 'types';
 
 const initialState: IHeroesState = {
     heroes: [],
-    totalCount: 0,
+    totalCount: 9999,
 };
 
-export const heroesReducer = (state = initialState, action: IHeroesAction) => {
+export const heroesReducer = (
+    state: IHeroesState = initialState,
+    action: IHeroesAction
+) => {
     switch (action.type) {
         case HeroesActionTypes.SET_HEROES:
             return {
