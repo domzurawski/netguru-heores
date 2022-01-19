@@ -28,14 +28,25 @@ export const deleteHero = async (
 export const getHeroById = async (
     heroId: string
 ): Promise<IHero | undefined> => {
-    const hero: IHero | undefined = await axios(HEROES_ENDPOINT + '/' + heroId)
+    const state = store.getState();
+    const allLoadedHeroes: IHero[] = state.heroesReducer.heroes;
+
+    const hero: IHero = allLoadedHeroes.filter(
+        (hero: IHero) => hero.id === heroId
+    )[0];
+
+    if (hero) return hero;
+
+    const fetchedHero: IHero | undefined = await axios(
+        HEROES_ENDPOINT + '/' + heroId
+    )
         .then(({ data }) => fixAvatarUrl(data))
         .catch((e) => {
             console.log(e);
             return undefined;
         });
 
-    return hero;
+    return fetchedHero;
 };
 
 export const getRandomHero = async (): Promise<IHero | undefined> => {

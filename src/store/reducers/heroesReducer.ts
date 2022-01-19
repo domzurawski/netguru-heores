@@ -1,4 +1,4 @@
-import { IHeroesAction, HeroesActionTypes, IHero, IHeroesState } from 'types';
+import { IHeroesAction, HeroesActionTypes, IHeroesState } from 'types';
 
 const initialState: IHeroesState = {
     heroes: [],

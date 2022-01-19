@@ -25,31 +25,37 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
     );
 
     useEffect(() => {
-        const getSelectedHero = async () => {
-            if (hero) {
-                setSelectetHero(hero);
-                setLoading(false);
-            } else if (!hero && heroId) {
-                const tempHero = heroes.filter(
-                    (hero: IHero) => hero.id === heroId
-                )[0];
+        // if (hero) {
+        //     setSelectetHero(hero);
+        //     setLoading(false);
+        // } else if (!hero && heroId) {
+        //     const tempHero = heroes.filter(
+        //         (hero: IHero) => hero.id === heroId
+        //     )[0];
 
-                if (tempHero) {
-                    setSelectetHero(tempHero);
-                    setLoading(false);
-                } else {
-                    getHeroById(heroId)
-                        .then(
-                            (hero: IHero | undefined) =>
-                                hero && setSelectetHero(hero)
-                        )
-                        .finally(() => setLoading(false));
-                }
-            }
-        };
+        //     if (tempHero) {
+        //         setSelectetHero(tempHero);
+        //         setLoading(false);
+        //     } else {
+        //         getHeroById(heroId)
+        //             .then(
+        //                 (hero: IHero | undefined) =>
+        //                     hero && setSelectetHero(hero)
+        //             )
+        //             .finally(() => setLoading(false));
+        //     }
+        // }
 
-        getSelectedHero();
+        if (hero) {
+            setSelectetHero(hero);
+            setLoading(false);
+        } else if (heroId) {
+            getHeroById(heroId).then(
+                (hero: IHero | undefined) => hero && setSelectetHero(hero)
+            );
+        }
 
+        setLoading(false);
         return () => setLoading(false);
     }, [hero, heroId, heroes]);
 
@@ -91,10 +97,7 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
                     <>
                         <img
                             className="w-28 h-28 mx-auto mt-8 my-6 rounded-full"
-                            src={
-                                process.env.REACT_APP_API_URL +
-                                selectedHero.avatarUrl
-                            }
+                            src={selectedHero.avatarUrl}
                             alt="avatar"
                         />
 

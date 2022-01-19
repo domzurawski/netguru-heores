@@ -22,7 +22,7 @@ export default function HeroesListElement({ hero }: IProps): ReactElement {
                 <div className="flex items-center mb-4 md:m-0">
                     <img
                         className="w-10 h-10 rounded-full mr-4"
-                        src={process.env.REACT_APP_API_URL + hero.avatarUrl}
+                        src={hero.avatarUrl}
                         alt="avatar"
                     />
                     <div className="flex flex-col">

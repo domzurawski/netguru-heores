@@ -5,7 +5,9 @@ export const fixAvatarUrl = (hero: IHero): IHero | undefined => {
     if (hero) {
         return {
             ...hero,
-            avatarUrl: hero.avatarUrl.replace('assets', 'static'),
+            avatarUrl:
+                process.env.REACT_APP_API_URL +
+                hero.avatarUrl.replace('assets', 'static'),
         };
     }
     return undefined;

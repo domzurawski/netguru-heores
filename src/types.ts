@@ -1,3 +1,11 @@
+export interface RootState {
+    modalReducer: IModalState;
+    heroesReducer: IHeroesState;
+    typesReducer: IType[];
+}
+
+// HEROES
+
 export interface IHero {
     id: string;
     avatarUrl: string;
@@ -5,11 +13,6 @@ export interface IHero {
     typeId: string;
     type: IType;
     description: string;
-}
-
-export interface IType {
-    id: string;
-    name: string;
 }
 
 export interface IHeroesBatch {
@@ -22,11 +25,6 @@ export interface INewHero {
     typeId: string;
     avatarUrl: string;
     description: string;
-}
-
-export interface RootState {
-    modalReducer: IModalState;
-    heroesReducer: IHeroesState;
 }
 
 export enum HeroesActionTypes {
@@ -43,6 +41,8 @@ export interface IHeroesState {
     totalCount: number;
     heroes: IHero[];
 }
+
+// MODAL
 
 export enum ModalActionTypes {
     SHOW_MODAL = 'SHOW_MODAL',
@@ -66,4 +66,24 @@ export interface IModalState {
     isOpen: boolean;
     component: ModalContent | null;
     hero?: IHero | undefined;
+}
+
+// TYPES
+
+export enum TypesActionTypes {
+    SET_TYPES = 'SET_TYPES',
+}
+
+export interface ITypesState {
+    types: IType[];
+}
+
+export interface IType {
+    id: string;
+    name: string;
+}
+
+export interface ITypesAction {
+    type: TypesActionTypes;
+    payload: ITypesState;
 }
