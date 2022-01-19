@@ -53,7 +53,7 @@ export const getRandomHero = async (): Promise<IHero | undefined> => {
 
 export const getHeroesBatch = async () => {
     const state = store.getState();
-    const allLoadedHeroes: IHero[] = state.heroesReducer;
+    const allLoadedHeroes: IHero[] = state.heroesReducer.heroes;
     const numberOfHeroes: number = allLoadedHeroes.length;
 
     const HEROES_PER_BATCH = 10;
@@ -76,9 +76,8 @@ export const getHeroesBatch = async () => {
         });
 
     if (heroesBatch) {
-        const { heroes, totalCount } = heroesBatch;
-        // probably will be changing heroes reducer to include total count
-        store.dispatch(addHeroes(heroes));
+        const { totalCount, heroes } = heroesBatch;
+        store.dispatch(addHeroes({ totalCount, heroes }));
     } else {
         // dispatch error
     }

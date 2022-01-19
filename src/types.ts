@@ -26,7 +26,7 @@ export interface INewHero {
 
 export interface RootState {
     modalReducer: IModalState;
-    heroesReducer: IHero[];
+    heroesReducer: IHeroesState;
 }
 
 export enum HeroesActionTypes {
@@ -36,7 +36,12 @@ export enum HeroesActionTypes {
 
 export interface IHeroesAction {
     type: HeroesActionTypes;
-    payload: IHero[];
+    payload: IHeroesState;
+}
+
+export interface IHeroesState {
+    totalCount: number;
+    heroes: IHero[];
 }
 
 export enum ModalActionTypes {

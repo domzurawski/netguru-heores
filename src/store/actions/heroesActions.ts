@@ -1,15 +1,17 @@
-import { IHeroesAction, HeroesActionTypes, IHero } from 'types';
+import { IHeroesAction, HeroesActionTypes, IHero, IHeroesState } from 'types';
 
-export const setHeroes = (heroes: IHero[]): IHeroesAction => ({
+export const setHeroes = ({
+    totalCount,
+    heroes,
+}: IHeroesState): IHeroesAction => ({
     type: HeroesActionTypes.SET_HEROES,
-    payload: heroes,
+    payload: { totalCount, heroes },
 });
 
-export const addHeroes = (heroes: IHero[]): IHeroesAction => ({
+export const addHeroes = ({
+    totalCount,
+    heroes,
+}: IHeroesState): IHeroesAction => ({
     type: HeroesActionTypes.ADD_HEROES,
-    payload: heroes,
+    payload: { totalCount, heroes },
 });
-
-export const deleteHero = () => ({});
-
-export const addHero = () => ({});

@@ -15,7 +15,9 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
     const { heroId } = useParams();
     const dispatch = useDispatch();
 
-    const heroes = useSelector((state: RootState) => state.heroesReducer);
+    const heroes = useSelector(
+        (state: RootState) => state.heroesReducer.heroes
+    );
 
     const [loading, setLoading] = useState<boolean>(true);
     const [selectedHero, setSelectetHero] = useState<IHero | undefined>(
@@ -59,7 +61,12 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
                     const updatedHeros: IHero[] = heroes.filter(
                         (hero: IHero) => hero.id !== deletedHero.id
                     );
-                    dispatch(setHeroes(updatedHeros));
+                    dispatch(
+                        setHeroes({
+                            totalCount: updatedHeros.length,
+                            heroes: updatedHeros,
+                        })
+                    );
                     dispatch(hideModal());
                     // dispatch success alert
                 }
