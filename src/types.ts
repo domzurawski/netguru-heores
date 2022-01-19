@@ -2,6 +2,7 @@ export interface RootState {
     modalReducer: IModalState;
     heroesReducer: IHeroesState;
     typesReducer: IType[];
+    snackbarReducer: ISnackbarState;
 }
 
 // HEROES
@@ -82,4 +83,47 @@ export interface IType {
 export interface ITypesAction {
     type: TypesActionTypes;
     payload: IType[];
+}
+
+// SNACKBAR
+
+export enum SnackbarActionTypes {
+    SHOW_SNACKBAR = 'SHOW_SNACKBAR',
+    HIDE_SNACKBAR = 'HIDE_SNACKBAR',
+}
+
+export interface ISnackbarState {
+    severity: SnackbarSeverity;
+    isOpen: boolean;
+    message: string;
+}
+
+export interface ISnackbarAction {
+    type: SnackbarActionTypes;
+    payload?: {
+        severity: SnackbarSeverity;
+        message: string;
+    };
+}
+
+// export type SnackbarActions = ISnackbarActionShow | ISnackbarActionHide;
+
+// export interface ISnackbarActionShow {
+//     type: SnackbarActionTypes;
+//     payload: SnackbarSeverity;
+// }
+
+// export interface ISnackbarActionHide {
+//     type: SnackbarActionTypes;
+// }
+
+export enum SnackbarSeverity {
+    ERROR = 'ERROR',
+    SUCCESS = 'SUCCESS',
+}
+
+export interface ISnackbarProps {
+    text: string;
+    background: string;
+    icon: JSX.Element;
 }
