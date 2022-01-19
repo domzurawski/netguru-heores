@@ -10,6 +10,7 @@ export function AddHeroButton({ onClick }: IProps): ReactElement {
     return (
         <button
             onClick={onClick}
+            data-testid="addHeroButton"
             className="bg-emerald-500 hover:bg-emerald-400 text-white font-semibold w-full rounded-md py-2 px-4 sm:w-auto transition"
         >
             <div className="flex items-center justify-center sm:justify-left">

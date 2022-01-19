@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, ReactElement, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addHeroes, setHeroes } from 'store/actions/heroesActions';
+import { setHeroes } from 'store/actions/heroesActions';
 import { hideModal } from 'store/actions/modalActions';
 import { showSnackbar } from 'store/actions/snackbarActions';
 import {
@@ -50,7 +50,7 @@ export default function AddHero(): ReactElement {
             avatarUrl: {
                 type: String,
                 message: 'You need to provide correct avatar url',
-                match: /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+                match: /[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)/,
             },
             fullName: {
                 type: String,
