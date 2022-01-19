@@ -7,16 +7,13 @@ import { HEROES_ENDPOINT } from 'constants/endpoints';
 import { fixAvatarUrl } from './heroAvatarFix';
 import { hideModal } from 'store/actions/modalActions';
 
-export const handleAddNewHero = async (
-    e: FormEvent<HTMLFormElement>,
-    newHero: IHero
-) => {
-    e.preventDefault();
+export const addNewHero = async (): Promise<IHero | undefined> => {
+    const test: IHero | undefined = undefined;
 
-    console.log(newHero);
+    return test;
 };
 
-export const handleDeleteHero = async (heroId: string) => {
+export const deleteHero = async (heroId: string) => {
     const state = store.getState();
 
     await axios
@@ -36,7 +33,7 @@ export const handleDeleteHero = async (heroId: string) => {
         });
 };
 
-export const handleGetHeroById = async (
+export const getHeroById = async (
     heroId: string
 ): Promise<IHero | undefined> => {
     const hero: IHero | undefined = await axios(HEROES_ENDPOINT + '/' + heroId)
@@ -49,7 +46,7 @@ export const handleGetHeroById = async (
     return hero;
 };
 
-export const handleGetRandomHero = async (): Promise<IHero | undefined> => {
+export const getRandomHero = async (): Promise<IHero | undefined> => {
     const randomHero: IHero | undefined = await axios(
         HEROES_ENDPOINT + '/random'
     )

@@ -1,6 +1,5 @@
-import { ChangeEvent, ReactElement, useState } from 'react';
+import { ChangeEvent, FormEvent, ReactElement, useState } from 'react';
 import { IHero, IType } from 'types';
-import { handleAddNewHero } from 'utils/heroesREST';
 
 export default function AddHero(): ReactElement {
     const [newHero, setNewHero] = useState<IHero>({
@@ -32,12 +31,15 @@ export default function AddHero(): ReactElement {
         setNewHero({ ...newHero, [name]: value });
     };
 
+    const handleAddNewHero = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        console.log(newHero);
+    };
+
     return (
-        <form
-            onSubmit={(e) => handleAddNewHero(e, newHero)}
-            className="h-full flex flex-col"
-        >
-            <p className="font-bold flex-1">Add hero</p>
+        <form onSubmit={handleAddNewHero} className="h-full flex flex-col">
+            <p className="font-bold">Add hero</p>
 
             <div className="w-20 h-20 rounded-full bg-blue-500 mt-8 mb-4 mr-4"></div>
 

@@ -4,7 +4,7 @@ import { ReactElement, useEffect, useState } from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { IHero } from 'types';
-import { handleDeleteHero, handleGetHeroById } from 'utils/heroesREST';
+import { deleteHero, getHeroById } from 'utils/heroesREST';
 import { DeleteHeroButton } from './Buttons';
 
 interface IProps {
@@ -34,7 +34,7 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
                     setSelectetHero(tempHero);
                     setLoading(false);
                 } else {
-                    handleGetHeroById(heroId)
+                    getHeroById(heroId)
                         .then((hero) => hero && setSelectetHero(hero))
                         .finally(() => setLoading(false));
                 }
@@ -88,7 +88,7 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
                 {selectedHero && (
                     <div className="text-center mt-auto">
                         <DeleteHeroButton
-                            onClick={() => handleDeleteHero(selectedHero.id)}
+                            onClick={() => deleteHero(selectedHero.id)}
                         />
                     </div>
                 )}
