@@ -1,4 +1,4 @@
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ISnackbarProps, RootState, SnackbarSeverity } from 'types';
 import { Fragment } from 'react';
@@ -9,6 +9,7 @@ import {
 } from '@heroicons/react/outline';
 import { XIcon } from '@heroicons/react/solid';
 import { hideSnackbar } from 'store/actions/snackbarActions';
+import { TIMEOUT_DURATION } from 'constants/misc';
 
 export default function Snackbar(): ReactElement {
     const dispatch = useDispatch();
@@ -16,10 +17,12 @@ export default function Snackbar(): ReactElement {
 
     const { isOpen, severity, message } = snackbar;
 
+    const handleClose = useCallback(() => dispatch(hideSnackbar()), [dispatch]);
+
     useEffect(() => {
-        const timeout = setTimeout(() => handleClose(), 1500);
+        const timeout = setTimeout(() => handleClose(), TIMEOUT_DURATION);
         return () => clearTimeout(timeout);
-    }, [snackbar]);
+    }, [snackbar, handleClose]);
 
     const getAlertColor = (): ISnackbarProps => {
         switch (severity) {
@@ -55,8 +58,6 @@ export default function Snackbar(): ReactElement {
     };
 
     const alertColor = getAlertColor();
-
-    const handleClose = () => dispatch(hideSnackbar());
 
     return (
         <>

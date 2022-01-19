@@ -1,8 +1,7 @@
 import { ReactElement } from 'react';
 import { useDispatch } from 'react-redux';
 import { showModal } from 'store/actions/modalActions';
-import { hideSnackbar, showSnackbar } from 'store/actions/snackbarActions';
-import { ModalContent, SnackbarSeverity } from 'types';
+import { ModalContent } from 'types';
 import { getRandomHero } from 'utils/rest';
 import { AddHeroButton, RandomizeButton } from './Buttons';
 
@@ -21,21 +20,6 @@ export default function ControlsSection(): ReactElement {
 
     return (
         <div className="sm:flex sm:space-y-0 grid-cols-12 gap-x-3 items-center mb-4 space-y-2">
-            <button
-                onClick={() =>
-                    dispatch(showSnackbar(SnackbarSeverity.SUCCESS, 'Success'))
-                }
-            >
-                Dispatch SUCCESS alert
-            </button>
-
-            <button
-                onClick={() =>
-                    dispatch(showSnackbar(SnackbarSeverity.ERROR, 'Error'))
-                }
-            >
-                Dispatch ERROR alert
-            </button>
             <AddHeroButton onClick={handleOpenNewHero} />
             <RandomizeButton onClick={handleRandomize} />
         </div>

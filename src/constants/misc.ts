@@ -1,0 +1,2 @@
+export const TIMEOUT_DURATION = 5000,
+    HEROES_PER_BATCH = 10;

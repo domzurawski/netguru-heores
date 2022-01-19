@@ -5,6 +5,7 @@ import { addHeroes } from 'store/actions/heroesActions';
 import { HEROES_ENDPOINT, TYPES_ENDPOINT } from 'constants/endpoints';
 import { fixAvatarUrl } from './heroAvatarFix';
 import { setTypes } from 'store/actions/typesActions';
+import { HEROES_PER_BATCH } from 'constants/misc';
 
 // HEROES
 
@@ -69,8 +70,6 @@ export const getHeroesBatch = async () => {
     const state = store.getState();
     const allLoadedHeroes: IHero[] = state.heroesReducer.heroes;
     const numberOfHeroes: number = allLoadedHeroes.length;
-
-    const HEROES_PER_BATCH = 10;
 
     const heroesBatch: IHeroesBatch | undefined = await axios(
         HEROES_ENDPOINT +
