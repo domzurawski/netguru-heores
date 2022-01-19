@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IHero } from 'types';
+import { IHero, IHeroesBatch } from 'types';
 import { store } from 'store/store';
 import { addHeroes } from 'store/actions/heroesActions';
 import { HEROES_ENDPOINT } from 'constants/endpoints';
@@ -51,27 +51,35 @@ export const getRandomHero = async (): Promise<IHero | undefined> => {
     return randomHero;
 };
 
-export const getHeroesBatch = async () => {
+export const getHeroesBatch = async (): Promise<number | undefined> => {
     const state = store.getState();
     const allLoadedHeroes: IHero[] = state.heroesReducer;
     const numberOfHeroes: number = allLoadedHeroes.length;
 
     const HEROES_PER_BATCH = 10;
 
-    const heroesBatch = await axios(
+    const heroesBatch: IHeroesBatch | undefined = await axios(
         HEROES_ENDPOINT +
             `?skip=${numberOfHeroes}` +
             `&first=${HEROES_PER_BATCH}`
     )
         .then(({ data }) => {
             const { totalCount } = data;
-            console.log('Total count:', totalCount);
-            return data.data.map((hero: IHero) => fixAvatarUrl(hero));
+            return {
+                heroes: data.data.map((hero: IHero) => fixAvatarUrl(hero)),
+                totalCount,
+            };
         })
-        .catch((e) => console.log(e));
+        .catch((e) => {
+            console.log(e);
+            return undefined;
+        });
 
-    if (heroesBatch < HEROES_PER_BATCH)
-        console.log('CREATE NEW STORE AND PASS NO MORE HEROES = TRUE');
-
-    store.dispatch(addHeroes(heroesBatch));
+    if (heroesBatch) {
+        const { heroes, totalCount } = heroesBatch;
+        store.dispatch(addHeroes(heroes));
+        return totalCount;
+    } else {
+        // dispatch error
+    }
 };

@@ -1,18 +1,18 @@
 import { ReactElement } from 'react';
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from 'store/actions/modalActions';
 import AddHero from 'components/AddHero';
 import HeroDetails from 'components/HeroDetails';
-import { ModalContent } from 'types';
+import { ModalContent, RootState } from 'types';
 import { XIcon } from '@heroicons/react/solid';
 
 export default function Modal(): ReactElement {
     const dispatch = useDispatch();
 
     const { isOpen, component, hero } = useSelector(
-        (state: RootStateOrAny) => state.modalReducer
+        (state: RootState) => state.modalReducer
     );
 
     const handleClose = () => dispatch(hideModal());

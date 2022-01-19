@@ -1,11 +1,9 @@
-import axios from 'axios';
-import { HEROES_ENDPOINT } from 'constants/endpoints';
 import { ReactElement, useEffect, useState } from 'react';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { setHeroes } from 'store/actions/heroesActions';
 import { hideModal } from 'store/actions/modalActions';
-import { IHero } from 'types';
+import { IHero, RootState } from 'types';
 import { deleteHero, getHeroById } from 'utils/rest';
 import { DeleteHeroButton } from './Buttons';
 
@@ -17,7 +15,7 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
     const { heroId } = useParams();
     const dispatch = useDispatch();
 
-    const heroes = useSelector((state: RootStateOrAny) => state.heroesReducer);
+    const heroes = useSelector((state: RootState) => state.heroesReducer);
 
     const [loading, setLoading] = useState<boolean>(true);
     const [selectedHero, setSelectetHero] = useState<IHero | undefined>(
@@ -54,9 +52,10 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
     }, [hero, heroId, heroes]);
 
     const handleDeleteHero = async (heroId: string) => {
-        getHeroById(heroId)
+        deleteHero(heroId)
             .then((deletedHero: IHero | undefined) => {
                 if (deletedHero) {
+                    console.log(deletedHero);
                     const updatedHeros: IHero[] = heroes.filter(
                         (hero: IHero) => hero.id !== deletedHero.id
                     );
