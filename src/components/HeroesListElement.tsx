@@ -10,9 +10,8 @@ interface IProps {
 export default function HeroesListElement({ hero }: IProps): ReactElement {
     const dispatch = useDispatch();
 
-    const handleOpenHeroDetails = () => {
+    const handleOpenHeroDetails = () =>
         dispatch(showModal(ModalContent.HERO_DETAILS, hero));
-    };
 
     return (
         <div

@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import { useDispatch } from 'react-redux';
 import { showModal } from 'store/actions/modalActions';
 import { ModalContent } from 'types';
-import { getRandomHero } from 'utils/heroesREST';
+import { getRandomHero } from 'utils/rest';
 import { AddHeroButton, RandomizeButton } from './Buttons';
 
 export default function ControlsSection(): ReactElement {

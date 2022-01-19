@@ -12,6 +12,13 @@ export interface IType {
     name: string;
 }
 
+export interface INewHero {
+    fullName: string;
+    typeId: string;
+    avatarUrl: string;
+    description: string;
+}
+
 export enum HeroesActionTypes {
     SET_HEROES = 'SET_HEROES',
     DELETE_HERO = 'DELETE_HERO',

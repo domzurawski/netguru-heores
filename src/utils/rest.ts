@@ -1,11 +1,9 @@
 import axios from 'axios';
-import { FormEvent } from 'react';
 import { IHero } from 'types';
 import { store } from 'store/store';
-import { addHeroes, setHeroes } from 'store/actions/heroesActions';
+import { addHeroes } from 'store/actions/heroesActions';
 import { HEROES_ENDPOINT } from 'constants/endpoints';
 import { fixAvatarUrl } from './heroAvatarFix';
-import { hideModal } from 'store/actions/modalActions';
 
 export const addNewHero = async (): Promise<IHero | undefined> => {
     const test: IHero | undefined = undefined;
@@ -13,24 +11,18 @@ export const addNewHero = async (): Promise<IHero | undefined> => {
     return test;
 };
 
-export const deleteHero = async (heroId: string) => {
-    const state = store.getState();
-
-    await axios
+export const deleteHero = async (
+    heroId: string
+): Promise<IHero | undefined> => {
+    const deletedHero: IHero | undefined = await axios
         .delete(HEROES_ENDPOINT + `/${heroId}`)
         .then(({ data }) => data)
-        .then((deletedHero: IHero) => {
-            const updatedHeros: IHero[] = state.heroesReducer.filter(
-                (hero: IHero) => hero.id !== deletedHero.id
-            );
-            store.dispatch(setHeroes(updatedHeros));
-            store.dispatch(hideModal());
-            // dispatch success alert
-        })
         .catch((e) => {
-            //dispatch error
             console.log(e);
+            return undefined;
         });
+
+    return deletedHero;
 };
 
 export const getHeroById = async (
@@ -71,7 +63,11 @@ export const getHeroesBatch = async () => {
             `?skip=${numberOfHeroes}` +
             `&first=${HEROES_PER_BATCH}`
     )
-        .then(({ data }) => data.data.map((hero: IHero) => fixAvatarUrl(hero)))
+        .then(({ data }) => {
+            const { totalCount } = data;
+            console.log('Total count:', totalCount);
+            return data.data.map((hero: IHero) => fixAvatarUrl(hero));
+        })
         .catch((e) => console.log(e));
 
     if (heroesBatch < HEROES_PER_BATCH)

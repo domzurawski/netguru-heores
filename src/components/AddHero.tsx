@@ -1,16 +1,11 @@
 import { ChangeEvent, FormEvent, ReactElement, useState } from 'react';
-import { IHero, IType } from 'types';
+import { INewHero, IType } from 'types';
 
 export default function AddHero(): ReactElement {
-    const [newHero, setNewHero] = useState<IHero>({
-        id: '',
+    const [newHero, setNewHero] = useState<INewHero>({
         avatarUrl: '',
         fullName: '',
         typeId: '',
-        type: {
-            id: '',
-            name: '',
-        },
         description: '',
     });
 

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ControlsSection from 'components/ControlsSection';
 import { showModal } from 'store/actions/modalActions';
-import { getHeroesBatch } from 'utils/heroesREST';
+import { getHeroesBatch } from 'utils/rest';
 import { ModalContent } from 'types';
 
 export default function Index(): ReactElement {

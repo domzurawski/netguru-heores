@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { HEROES_ENDPOINT } from 'constants/endpoints';
 import { ReactElement, useEffect, useState } from 'react';
-import { RootStateOrAny, useSelector } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { setHeroes } from 'store/actions/heroesActions';
+import { hideModal } from 'store/actions/modalActions';
 import { IHero } from 'types';
-import { deleteHero, getHeroById } from 'utils/heroesREST';
+import { deleteHero, getHeroById } from 'utils/rest';
 import { DeleteHeroButton } from './Buttons';
 
 interface IProps {
@@ -13,6 +15,8 @@ interface IProps {
 
 export default function HeroDetails({ hero }: IProps): ReactElement {
     const { heroId } = useParams();
+    const dispatch = useDispatch();
+
     const heroes = useSelector((state: RootStateOrAny) => state.heroesReducer);
 
     const [loading, setLoading] = useState<boolean>(true);
@@ -35,7 +39,10 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
                     setLoading(false);
                 } else {
                     getHeroById(heroId)
-                        .then((hero) => hero && setSelectetHero(hero))
+                        .then(
+                            (hero: IHero | undefined) =>
+                                hero && setSelectetHero(hero)
+                        )
                         .finally(() => setLoading(false));
                 }
             }
@@ -45,6 +52,24 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
 
         return () => setLoading(false);
     }, [hero, heroId, heroes]);
+
+    const handleDeleteHero = async (heroId: string) => {
+        getHeroById(heroId)
+            .then((deletedHero: IHero | undefined) => {
+                if (deletedHero) {
+                    const updatedHeros: IHero[] = heroes.filter(
+                        (hero: IHero) => hero.id !== deletedHero.id
+                    );
+                    dispatch(setHeroes(updatedHeros));
+                    dispatch(hideModal());
+                    // dispatch success alert
+                }
+            })
+            .catch((e) => {
+                //dispatch error
+                console.log(e);
+            });
+    };
 
     return (
         <>
@@ -88,7 +113,7 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
                 {selectedHero && (
                     <div className="text-center mt-auto">
                         <DeleteHeroButton
-                            onClick={() => deleteHero(selectedHero.id)}
+                            onClick={() => handleDeleteHero(selectedHero.id)}
                         />
                     </div>
                 )}
