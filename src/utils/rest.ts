@@ -1,18 +1,27 @@
 import axios from 'axios';
-import { IHero, IHeroesBatch, IType } from 'types';
+import { IHero, IHeroesBatch, INewHero, IType, SnackbarSeverity } from 'types';
 import { store } from 'store/store';
 import { addHeroes } from 'store/actions/heroesActions';
 import { HEROES_ENDPOINT, TYPES_ENDPOINT } from 'constants/endpoints';
 import { fixAvatarUrl } from './heroAvatarFix';
 import { setTypes } from 'store/actions/typesActions';
 import { HEROES_PER_BATCH } from 'constants/misc';
+import { showSnackbar } from 'store/actions/snackbarActions';
 
 // HEROES
 
-export const addNewHero = async (): Promise<IHero | undefined> => {
-    const test: IHero | undefined = undefined;
+export const addNewHero = async (
+    hero: INewHero
+): Promise<IHero | undefined> => {
+    const newHero: IHero | undefined = await axios
+        .post(HEROES_ENDPOINT, { ...hero })
+        .then(({ data }) => data)
+        .catch((e) => {
+            console.log(e);
+            return undefined;
+        });
 
-    return test;
+    return newHero;
 };
 
 export const deleteHero = async (
@@ -85,7 +94,9 @@ export const getHeroesBatch = async () => {
         })
         .catch((e) => {
             console.log(e);
-            // TODO: Dispatch error
+            store.dispatch(
+                showSnackbar(SnackbarSeverity.ERROR, 'Something went wrong')
+            );
             return undefined;
         });
 
@@ -94,7 +105,9 @@ export const getHeroesBatch = async () => {
         store.dispatch(addHeroes({ totalCount, heroes }));
     } else {
         store.dispatch(addHeroes({ totalCount: 0, heroes: [] }));
-        // dispatch error
+        store.dispatch(
+            showSnackbar(SnackbarSeverity.ERROR, 'Something went wrong')
+        );
     }
 };
 

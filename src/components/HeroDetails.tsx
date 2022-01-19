@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { setHeroes } from 'store/actions/heroesActions';
 import { hideModal } from 'store/actions/modalActions';
-import { IHero, RootState } from 'types';
+import { showSnackbar } from 'store/actions/snackbarActions';
+import { IHero, RootState, SnackbarSeverity } from 'types';
 import { deleteHero, getHeroById } from 'utils/rest';
 import { DeleteHeroButton } from './Buttons';
 
@@ -15,8 +16,8 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
     const { heroId } = useParams();
     const dispatch = useDispatch();
 
-    const heroes = useSelector(
-        (state: RootState) => state.heroesReducer.heroes
+    const { heroes, totalCount } = useSelector(
+        (state: RootState) => state.heroesReducer
     );
 
     const [loading, setLoading] = useState<boolean>(true);
@@ -25,27 +26,6 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
     );
 
     useEffect(() => {
-        // if (hero) {
-        //     setSelectetHero(hero);
-        //     setLoading(false);
-        // } else if (!hero && heroId) {
-        //     const tempHero = heroes.filter(
-        //         (hero: IHero) => hero.id === heroId
-        //     )[0];
-
-        //     if (tempHero) {
-        //         setSelectetHero(tempHero);
-        //         setLoading(false);
-        //     } else {
-        //         getHeroById(heroId)
-        //             .then(
-        //                 (hero: IHero | undefined) =>
-        //                     hero && setSelectetHero(hero)
-        //             )
-        //             .finally(() => setLoading(false));
-        //     }
-        // }
-
         if (hero) {
             setSelectetHero(hero);
             setLoading(false);
@@ -60,27 +40,30 @@ export default function HeroDetails({ hero }: IProps): ReactElement {
     }, [hero, heroId, heroes]);
 
     const handleDeleteHero = async (heroId: string) => {
-        deleteHero(heroId)
-            .then((deletedHero: IHero | undefined) => {
-                if (deletedHero) {
-                    console.log(deletedHero);
-                    const updatedHeros: IHero[] = heroes.filter(
-                        (hero: IHero) => hero.id !== deletedHero.id
-                    );
-                    dispatch(
-                        setHeroes({
-                            totalCount: updatedHeros.length,
-                            heroes: updatedHeros,
-                        })
-                    );
-                    dispatch(hideModal());
-                    // dispatch success alert
-                }
-            })
-            .catch((e) => {
-                //dispatch error
-                console.log(e);
-            });
+        deleteHero(heroId).then((deletedHero: IHero | undefined) => {
+            if (deletedHero) {
+                const updatedHeros: IHero[] = heroes.filter(
+                    (hero: IHero) => hero.id !== deletedHero.id
+                );
+                dispatch(
+                    setHeroes({
+                        totalCount: totalCount - 1,
+                        heroes: updatedHeros,
+                    })
+                );
+                dispatch(hideModal());
+                dispatch(
+                    showSnackbar(
+                        SnackbarSeverity.SUCCESS,
+                        deletedHero.fullName + ' deleted'
+                    )
+                );
+            } else {
+                dispatch(
+                    showSnackbar(SnackbarSeverity.ERROR, 'Something went wrong')
+                );
+            }
+        });
     };
 
     return (

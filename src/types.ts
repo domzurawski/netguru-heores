@@ -120,6 +120,7 @@ export interface ISnackbarAction {
 export enum SnackbarSeverity {
     ERROR = 'ERROR',
     SUCCESS = 'SUCCESS',
+    WARNING = 'WARNING',
 }
 
 export interface ISnackbarProps {

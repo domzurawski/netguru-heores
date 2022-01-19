@@ -6,6 +6,7 @@ import { Transition } from '@headlessui/react';
 import {
     CheckCircleIcon,
     ExclamationCircleIcon,
+    ExclamationIcon,
 } from '@heroicons/react/outline';
 import { XIcon } from '@heroicons/react/solid';
 import { hideSnackbar } from 'store/actions/snackbarActions';
@@ -48,6 +49,17 @@ export default function Snackbar(): ReactElement {
                         />
                     ),
                 };
+            case SnackbarSeverity.WARNING:
+                return {
+                    text: 'text-yellow-600',
+                    background: 'bg-yellow-50',
+                    icon: (
+                        <ExclamationIcon
+                            className="h-6 w-6 text-yellow-600"
+                            aria-hidden="true"
+                        />
+                    ),
+                };
             default:
                 return {
                     text: 'text-white',
@@ -63,7 +75,7 @@ export default function Snackbar(): ReactElement {
         <>
             <div
                 aria-live="assertive"
-                className="fixed inset-0 flex px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
+                className="fixed inset-0 flex px-4 py-6 pointer-events-none sm:p-6 sm:items-start z-50"
             >
                 <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
                     <Transition
